@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChromaX — Магазин фарб</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="#" id="homeButton">Chroma<span>X</span></a>
+
+  <nav class="header-icons">
+    <button class="icon-button" id="homeIcon" aria-label="Головна">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5.5 9v11h13V9M9 20v-7h6v7"/></svg>
+    </button>
+    <button class="icon-button cart-icon" id="cartButton" aria-label="Кошик">
+      <svg viewBox="0 0 24 24"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 1.9-1.4L22 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+      <span id="cartCount">0</span>
+    </button>
+    <button class="icon-button" id="profileButton" aria-label="Профіль">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="home-section" id="homeSection">
+    <h1>Обери свою фарбу</h1>
+    <p class="subtitle">Створи власний колір для будь-якої поверхні</p>
+
+    <div class="category-grid">
+      <button class="category-card" data-type="metal">
+        <span class="category-color metal-color"></span>
+        <span>Метал</span>
+        <small>Фарба для металевих поверхонь</small>
+      </button>
+      <button class="category-card" data-type="wall">
+        <span class="category-color wall-color"></span>
+        <span>Стіни</span>
+        <small>Інтер'єрна фарба</small>
+      </button>
+      <button class="category-card" data-type="wood">
+        <span class="category-color wood-color"></span>
+        <span>Дерево</span>
+        <small>Захист і декор деревини</small>
+      </button>
+      <button class="category-card" data-type="universal">
+        <span class="category-color universal-color"></span>
+        <span>Універсальна</span>
+        <small>Для різних типів поверхонь</small>
+      </button>
+    </div>
+  </section>
+
+  <section class="product-section hidden" id="productSection">
+    <button class="back-button" id="backButton">← Назад до категорій</button>
+    <h1 id="productTitle">Фарба для металу</h1>
+
+    <div class="product-layout">
+      <div class="palette-column">
+        <div class="palette-wrap">
+          <canvas id="colorPalette" width="500" height="320"></canvas>
+          <div class="palette-cursor" id="paletteCursor"></div>
+        </div>
+
+        <div class="slider-block">
+          <label for="brightnessSlider">Яскравість</label>
+          <div class="brightness-track" id="brightnessTrack">
+            <input type="range" id="brightnessSlider" min="10" max="100" value="100">
+          </div>
+        </div>
+
+        <div class="slider-block">
+          <label for="whiteSlider">Домішка білого</label>
+          <div class="white-track">
+            <input type="range" id="whiteSlider" min="0" max="90" value="0">
+          </div>
+        </div>
+      </div>
+
+      <div class="product-options">
+        <div class="color-code-row">
+          <div class="color-preview" id="colorPreview"></div>
+          <div class="code-field">
+            <span>HEX</span>
+            <input type="text" id="hexCode" value="#00A000" maxlength="7">
+            <button id="copyColor" aria-label="Скопіювати код">⧉</button>
+          </div>
+        </div>
+
+        <div class="rgb-values" id="rgbCode">RGB: 0, 160, 0</div>
+
+        <h2>Об'єм та ціна</h2>
+        <div class="volume-options">
+          <button class="volume-button active" data-volume="250">250 мл <strong></strong></button>
+          <button class="volume-button" data-volume="500">500 мл <strong></strong></button>
+          <button class="volume-button" data-volume="1000">1 л <strong></strong></button>
+        </div>
+
+        <div class="selected-price">
+          <span>Вартість:</span>
+          <strong id="selectedPrice">159 ₴</strong>
+        </div>
+
+        <button class="add-cart-button" id="addToCart">Додати в кошик</button>
+        <p class="product-note">Колір на екрані може трохи відрізнятися від реального відтінку фарби.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal auth-modal">
+    <button class="close-button" data-close="authModal">×</button>
+    <div class="auth-logo">Chroma<span>X</span></div>
+    <h2 id="authTitle">Вхід в акаунт</h2>
+    <p class="modal-subtitle" id="authSubtitle">Раді бачити тебе знову!</p>
+
+    <form id="authForm">
+      <div id="nameField" class="form-field hidden">
+        <label for="authName">Ім'я</label>
+        <input id="authName" type="text" placeholder="Твоє ім'я">
+      </div>
+
+      <div class="form-field">
+        <label for="authEmail">Електронна пошта</label>
+        <input id="authEmail" type="email" placeholder="name@example.com" required>
+      </div>
+
+      <div class="form-field">
+        <label for="authPassword">Пароль</label>
+        <input id="authPassword" type="password" placeholder="Мінімум 6 символів" minlength="6" required>
+      </div>
+
+      <div class="form-field hidden" id="confirmPasswordField">
+        <label for="confirmPassword">Повторіть пароль</label>
+        <input id="confirmPassword" type="password" placeholder="Повторіть пароль">
+      </div>
+
+      <p class="form-error" id="authError"></p>
+      <button class="primary-button" type="submit" id="authSubmit">Увійти</button>
+    </form>
+
+    <div class="auth-switch">
+      <span id="authSwitchText">Ще не маєш акаунта?</span>
+      <button id="authSwitchButton">Зареєструватися</button>
+    </div>
+
+    <div class="account-info hidden" id="accountInfo">
+      <div class="account-avatar" id="accountAvatar">U</div>
+      <h3 id="accountName"></h3>
+      <p id="accountEmail"></p>
+      <button class="logout-button" id="logoutButton">Вийти з акаунта</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="cartModal">
+  <div class="modal cart-modal">
+    <button class="close-button" data-close="cartModal">×</button>
+    <h2>Твій кошик</h2>
+    <p class="modal-subtitle">Товари, які ти обрав</p>
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-bottom">
+      <div class="cart-total">
+        <span>Загальна сума</span>
+        <strong id="cartTotal">0 ₴</strong>
+      </div>
+      <button class="primary-button" id="checkoutButton" disabled>Перейти до замовлення →</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal checkout-modal">
+    <button class="close-button" data-close="checkoutModal">×</button>
+    <h2>Оформлення замовлення</h2>
+    <p class="modal-subtitle">Залишилося зовсім трохи!</p>
+
+    <form id="checkoutForm">
+      <div class="checkout-section">
+        <h3>01. Отримувач</h3>
+        <div class="form-field">
+          <label for="recipientName">Ім'я та прізвище</label>
+          <input id="recipientName" type="text" placeholder="Як до вас звертатися?" required>
+        </div>
+        <div class="form-field">
+          <label for="recipientPhone">Номер телефону</label>
+          <input id="recipientPhone" type="tel" placeholder="+380 XX XXX XX XX" required>
+        </div>
+      </div>
+
+      <div class="checkout-section">
+        <h3>02. Спосіб оплати</h3>
+        <div class="choice-grid">
+          <label class="choice-card">
+            <input type="radio" name="payment" value="Оплата при отриманні" required>
+            <span class="choice-icon">₴</span>
+            <span class="choice-text"><strong>При отриманні</strong><small>Оплата у відділенні</small></span>
+            <span class="choice-check"></span>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="payment" value="Онлайн-оплата (демо)">
+            <span class="choice-icon">▣</span>
+            <span class="choice-text"><strong>Карткою онлайн</strong><small>Демонстраційний варіант</small></span>
+            <span class="choice-check"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="checkout-section">
+        <h3>03. Доставка</h3>
+        <div class="choice-grid">
+          <label class="choice-card">
+            <input type="radio" name="delivery" value="Нова пошта — відділення" required>
+            <span class="choice-icon">Н</span>
+            <span class="choice-text"><strong>Нова пошта</strong><small>До відділення</small></span>
+            <span class="choice-check"></span>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="delivery" value="Нова пошта — поштомат">
+            <span class="choice-icon">▤</span>
+            <span class="choice-text"><strong>Поштомат</strong><small>Нова пошта</small></span>
+            <span class="choice-check"></span>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="delivery" value="Укрпошта">
+            <span class="choice-icon">У</span>
+            <span class="choice-text"><strong>Укрпошта</strong><small>До відділення</small></span>
+            <span class="choice-check"></span>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="delivery" value="Самовивіз">
+            <span class="choice-icon">⌖</span>
+            <span class="choice-text"><strong>Самовивіз</strong><small>Забрати самостійно</small></span>
+            <span class="choice-check"></span>
+          </label>
+        </div>
+
+        <div class="form-field address-field">
+          <label for="deliveryAddress">Місто та номер відділення / адреса</label>
+          <input id="deliveryAddress" type="text" placeholder="Місто, відділення або адреса" required>
+        </div>
+      </div>
+
+      <div class="checkout-summary">
+        <span>Разом до сплати</span>
+        <strong id="checkoutTotal">0 ₴</strong>
+      </div>
+
+      <button class="primary-button confirm-order-button" type="submit">Підтвердити замовлення</button>
+      <p class="checkout-disclaimer">Це демонстраційне оформлення. Реальна оплата та доставка ще не підключені.</p>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
